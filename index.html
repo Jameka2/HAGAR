@@ -549,7 +549,57 @@ window.addEventListener('load', () => {
   showNextImage();
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+  const song = document.getElementById("song");
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
+  // لو مش موبايل → شغل الصوت تلقائي
+  if (!isMobile) {
+    song.volume = 0.8;
+    song.play().catch(() => console.warn("Autoplay blocked"));
+  } else {
+    // زر التشغيل للموبايل
+    const playBtn = document.createElement("button");
+    playBtn.textContent = "🔊 اضغط لتشغيل الأغنية";
+    Object.assign(playBtn.style, {
+      position: "fixed",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      background: "linear-gradient(135deg, #ffb6c1, #ff69b4)",
+      color: "#fff",
+      fontSize: "20px",
+      padding: "16px 28px",
+      borderRadius: "30px",
+      border: "none",
+      cursor: "pointer",
+      zIndex: 99999,
+      fontWeight: "bold",
+      boxShadow: "0 0 20px rgba(255, 192, 203, 0.9)",
+      animation: "pulse 1.6s infinite",
+      textShadow: "0 0 8px rgba(255,255,255,0.8)",
+    });
+    document.body.appendChild(playBtn);
+
+    // تأثير النبض (التوهّج)
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes pulse {
+        0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255,192,203,0.8); }
+        50% { transform: translate(-50%, -50%) scale(1.07); box-shadow: 0 0 30px rgba(255,182,193,1); }
+        100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255,192,203,0.8); }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // عند الضغط → شغل الصوت وامسح الزر
+    playBtn.addEventListener("click", () => {
+      song.volume = 0.8;
+      song.play().catch(() => alert("تعذر تشغيل الصوت"));
+      playBtn.remove();
+    });
+  }
+});
   </script>
 </body>
 </html>
