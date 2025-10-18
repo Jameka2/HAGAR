@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title> Happy Birthday Hagar❤ </title>
   <style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: black; /* لون الخلفية الرئيسي */
+}
+#intro-slideshow,
+#overlay,
+#fireworks {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
     /* Reset + base */
     *{box-sizing:border-box;margin:0;padding:0}
     html, body {
@@ -553,46 +571,44 @@ window.addEventListener("DOMContentLoaded", () => {
   const song = document.getElementById("song");
   const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-  // لو مش موبايل → شغل الصوت تلقائي
   if (!isMobile) {
+    // الكمبيوتر → تشغيل تلقائي
     song.volume = 0.8;
     song.play().catch(() => console.warn("Autoplay blocked"));
   } else {
-    // زر التشغيل للموبايل
+    // الموبايل → زر صغير في الأسفل يسار
     const playBtn = document.createElement("button");
-    playBtn.textContent = "🔊 اضغط لتشغيل الأغنية";
+    playBtn.textContent = "🎵 تشغيل";
     Object.assign(playBtn.style, {
       position: "fixed",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      background: "linear-gradient(135deg, #ffb6c1, #ff69b4)",
+      bottom: "20px",
+      left: "20px",
+      background: "linear-gradient(135deg, #ff8fab, #ff69b4)",
       color: "#fff",
-      fontSize: "20px",
-      padding: "16px 28px",
-      borderRadius: "30px",
+      fontSize: "15px",
+      padding: "10px 16px",
+      borderRadius: "20px",
       border: "none",
       cursor: "pointer",
       zIndex: 99999,
-      fontWeight: "bold",
-      boxShadow: "0 0 20px rgba(255, 192, 203, 0.9)",
+      fontWeight: "600",
+      boxShadow: "0 0 10px rgba(255,182,193,0.8)",
       animation: "pulse 1.6s infinite",
-      textShadow: "0 0 8px rgba(255,255,255,0.8)",
+      textShadow: "0 0 5px rgba(255,255,255,0.7)",
     });
     document.body.appendChild(playBtn);
 
-    // تأثير النبض (التوهّج)
+    // تأثير توهّج بسيط
     const style = document.createElement("style");
     style.textContent = `
       @keyframes pulse {
-        0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255,192,203,0.8); }
-        50% { transform: translate(-50%, -50%) scale(1.07); box-shadow: 0 0 30px rgba(255,182,193,1); }
-        100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(255,192,203,0.8); }
+        0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,182,193,0.6); }
+        50% { transform: scale(1.1); box-shadow: 0 0 16px rgba(255,192,203,1); }
+        100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,182,193,0.6); }
       }
     `;
     document.head.appendChild(style);
 
-    // عند الضغط → شغل الصوت وامسح الزر
     playBtn.addEventListener("click", () => {
       song.volume = 0.8;
       song.play().catch(() => alert("تعذر تشغيل الصوت"));
